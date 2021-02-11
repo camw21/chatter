@@ -1,25 +1,41 @@
-import logo from './logo.svg';
+import {useState} from 'react';
 import './App.css';
+import TextInput from './TextInput';
+import Message from './Message'
+import NamePicker from './NamePicker'
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function Wrap() {
+  return <BrowserRouter>
+    <Switch>
+      <Route exact path="/" component={App} />
+      <Route exact path="/:room" component={App} />
+    </Switch>
+  </BrowserRouter>
 }
 
-export default App;
+function App(props) {
+  const room = props.match.params.room || 'home'
+
+  const [username,setUsername] = useState(
+    localStorage.getItem('username') || ''
+  )
+
+  // console.log(messages)
+  return <div className="App">
+ 
+    <header className="header">
+      <div className="logo" />
+      CHATTER
+      <NamePicker saveName={setUsername} />
+    </header>
+
+    <main className="messages">
+      {messages.map((msg,i)=> {
+        const isMe = msg.name===username
+        return <Message key={i} {...msg} isMe={isMe} />
+      })}
+    </main>
+
+  </div>
+}
