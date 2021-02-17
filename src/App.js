@@ -37,5 +37,9 @@ function App(props) {
       })}
     </main>
 
+    <TextInput 
+      send={(t)=> db.send({text:t, name:username, date:new Date(), room})}
+    />
+
   </div>
 }
